@@ -1,3 +1,47 @@
+#!/bin/bash
+echo "Installation de la galerie d'images..."
+
+# Ajout de la table produits_images
+mysql -u root -e "USE ecommerce_design; CREATE TABLE IF NOT EXISTS produits_images ( id INT AUTO_INCREMENT PRIMARY KEY, id_produit INT NOT NULL, image VARCHAR(255) NOT NULL, ordre INT DEFAULT 0, date_creation DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_produit) REFERENCES produits(id) ON DELETE CASCADE ) ENGINE=InnoDB;"
+
+# Ajout des fonctions à includes/functions.php (à la fin)
+cat >> includes/functions.php << 'EOFF'
+/**
+ * Upload de multiples images pour la galerie
+ */
+function uploadGalleryImages($fileField, $produitId) {
+    if (empty($_FILES[$fileField]['name'][0])) return [];
+    $allowed = ['jpg','jpeg','png','webp','gif'];
+    $uploaded = [];
+    $errors = [];
+    foreach ($_FILES[$fileField]['tmp_name'] as $key => $tmpName) {
+        if ($_FILES[$fileField]['error'][$key] !== UPLOAD_ERR_OK) continue;
+        $ext = strtolower(pathinfo($_FILES[$fileField]['name'][$key], PATHINFO_EXTENSION));
+        if (!in_array($ext, $allowed)) { $errors[] = "Format non autorisé : " . $_FILES[$fileField]['name'][$key]; continue; }
+        if ($_FILES[$fileField]['size'][$key] > 5*1024*1024) { $errors[] = "Fichier trop volumineux : " . $_FILES[$fileField]['name'][$key]; continue; }
+        $newName = 'gal_' . $produitId . '_' . uniqid() . '.' . $ext;
+        $destination = UPLOAD_DIR . $newName;
+        if (move_uploaded_file($tmpName, $destination)) $uploaded[] = $newName;
+    }
+    if (!empty($errors)) setFlash('warning', implode('<br>', $errors));
+    return $uploaded;
+}
+function deleteGalleryImage($pdo, $imageId) {
+    $stmt = $pdo->prepare('SELECT image FROM produits_images WHERE id = ?');
+    $stmt->execute([$imageId]);
+    $img = $stmt->fetch();
+    if ($img) { deleteProductImage($img['image']); $pdo->prepare('DELETE FROM produits_images WHERE id = ?')->execute([$imageId]); return true; }
+    return false;
+}
+function getProductImages($pdo, $produitId) {
+    $stmt = $pdo->prepare('SELECT * FROM produits_images WHERE id_produit = ? ORDER BY ordre ASC, date_creation ASC');
+    $stmt->execute([$produitId]);
+    return $stmt->fetchAll();
+}
+EOFF
+
+# Remplacer produits/form.php par la version avec galerie
+cat > produits/form.php << 'EOFF'
 <?php
 $pageTitle  = isset($_GET['id']) ? 'Modifier un produit' : 'Ajouter un produit';
 $activePage = 'produits';
@@ -164,3 +208,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+EOFF
+
+# Créer produits/detail.php
+cat > produits/detail.php << 'EOFF'
+<?php
+$pageTitle  = 'Détail du produit';
+$activePage = 'produits';
+require_once __DIR__ . '/../includes/header.php';
+
+$id = (int)($_GET['id'] ?? 0);
+if (!$id) { setFlash('danger', 'Produit non spécifié.'); redirect(BASE_URL . '/produits/liste.php'); }
+
+$stmt = $pdo->prepare("SELECT p.*, f.nom_entreprise AS fournisseur, c.nom AS categorie FROM produits p LEFT JOIN fournisseurs f ON f.id = p.id_fournisseur LEFT JOIN categories c ON c.id = p.id_categorie WHERE p.id = ?");
+$stmt->execute([$id]);
+$produit = $stmt->fetch();
+if (!$produit) { setFlash('danger', 'Produit introuvable.'); redirect(BASE_URL . '/produits/liste.php'); }
+
+$images = getProductImages($pdo, $id);
+?>
+<div class="page-head">
+    <div><h2 style="margin:0;"><?= clean($produit['nom']) ?></h2></div>
+    <a href="liste.php" class="btn btn-outline">Retour</a>
+</div>
+
+<div class="panel" style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+    <div>
+        <?php if (!empty($images)): ?>
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <?php foreach ($images as $index => $img): ?>
+                        <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                            <img src="<?= UPLOAD_URL . clean($img['image']) ?>" class="d-block w-100" style="max-height:400px; object-fit:contain;" alt="Image">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Précédent</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Suivant</span>
+                </button>
+            </div>
+        <?php else: ?>
+            <div style="background:#f0f2f5; border-radius:12px; padding:60px; text-align:center; color:#aaa;">Aucune image</div>
+        <?php endif; ?>
+    </div>
+    <div>
+        <h3><?= clean($produit['nom']) ?></h3>
+        <p style="font-size:1.2rem; color:var(--blue-600); font-weight:bold;"><?= formatPrix($produit['prix']) ?></p>
+        <p><strong>Stock :</strong> <?= (int)$produit['stock'] ?> unités</p>
+        <p><strong>Catégorie :</strong> <?= clean($produit['categorie'] ?? 'Non classé') ?></p>
+        <p><strong>Fournisseur :</strong> <?= clean($produit['fournisseur'] ?? 'Aucun') ?></p>
+        <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:15px;">
+            <strong>Description</strong>
+            <p><?= nl2br(clean($produit['description'] ?? '')) ?></p>
+        </div>
+        <div style="margin-top:20px;">
+            <a href="form.php?id=<?= $produit['id'] ?>" class="btn btn-primary">Modifier</a>
+            <a href="supprimer.php?id=<?= $produit['id'] ?>" class="btn btn-danger confirm-delete" data-label="le produit <?= clean($produit['nom']) ?>">Supprimer</a>
+        </div>
+    </div>
+</div>
+
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+EOFF
+
+# Mettre à jour produits/liste.php pour ajouter le bouton "Voir"
+sed -i '/<td class="actions-cell">/,/<\/td>/ s|</a>|</a> <a href="detail.php?id=<?= $p[\'id\'] ?>" class="btn btn-outline btn-sm">Voir</a>|' produits/liste.php
+
+echo "✅ Installation terminée. Redémarrez le serveur."

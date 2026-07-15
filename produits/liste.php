@@ -81,6 +81,7 @@ $produits = $stmt->fetchAll();
                         <?php endif; ?>
                     </td>
                     <td class="actions-cell">
+                        <a href="detail.php?id=<?= $p['id'] ?>" class="btn btn-outline btn-sm">Voir</a>
                         <a href="form.php?id=<?= $p['id'] ?>" class="btn btn-outline btn-sm">Modifier</a>
                         <a href="supprimer.php?id=<?= $p['id'] ?>" class="btn btn-danger btn-sm confirm-delete" data-label="le produit <?= clean($p['nom']) ?>">Supprimer</a>
                     </td>
