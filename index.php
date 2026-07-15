@@ -25,6 +25,20 @@ $ventes = $pdo->query("SELECT DATE_FORMAT(date_facture, '%Y-%m') AS mois, SUM(to
 $categoriesData = $pdo->query("SELECT c.nom, COUNT(p.id) AS nb FROM categories c LEFT JOIN produits p ON p.id_categorie = c.id GROUP BY c.id")->fetchAll();
 ?>
 
+<!-- ================================================= -->
+<!-- BANDEAU PUBLICITAIRE AVEC L'IMAGE OK1.JPEG        -->
+<!-- ================================================= -->
+<div class="banner-dashboard">
+    <div class="banner-dashboard-content">
+        <img src="ok1.jpeg" alt="Promotion OMEGA" loading="lazy">
+        <div class="banner-dashboard-text">
+            <h3>🔥 Offre Spéciale</h3>
+            <p>Découvrez nos produits en promotion</p>
+            <span class="promo-badge">- 30%</span>
+        </div>
+    </div>
+</div>
+
 <div class="page-head">
     <div>
         <p>Bienvenue, <?= clean($_SESSION['user_nom']) ?>. Voici la synthèse de votre activité.</p>

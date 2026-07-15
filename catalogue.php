@@ -4,8 +4,8 @@ require_once __DIR__ . '/includes/functions.php';
 
 // Récupérer TOUS les produits avec leurs catégories en une seule requête
 $stmt = $pdo->query("
-    SELECT p.*, c.nom AS categorie_nom, 
-           (SELECT COUNT(*) FROM produits_images WHERE id_produit = p.id) AS nb_images
+    SELECT p.*, c.nom AS categorie_nom,
+    (SELECT COUNT(*) FROM produits_images WHERE id_produit = p.id) AS nb_images
     FROM produits p
     LEFT JOIN categories c ON c.id = p.id_categorie
     ORDER BY c.nom, p.nom
@@ -26,12 +26,11 @@ foreach ($produits as $p) {
 function renderProductCard($p) {
     $images = getProductImages($GLOBALS['pdo'], $p['id']);
     $imageCount = count($images);
-    
+
     $html = '<div class="product-card">';
     $html .= '<div class="image-wrapper">';
-    
+
     if ($imageCount > 0) {
-        // Mini-carrousel
         $html .= '<div class="mini-carousel" data-index="0">';
         foreach ($images as $idx => $img) {
             $active = $idx === 0 ? 'active' : '';
@@ -51,13 +50,12 @@ function renderProductCard($p) {
         }
         $html .= '</div>';
     } else {
-        // Aucune image
         $html .= '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:3rem;">📦</div>';
     }
-    
+
     $html .= ($p['stock'] > 0) ? '<span class="badge-stock">✓ En stock</span>' : '<span class="badge-stock out">✗ Rupture</span>';
     $html .= '</div>';
-    
+
     $html .= '<div class="body">';
     $html .= '<div class="name">' . clean($p['nom']) . '</div>';
     $html .= '<div class="prix">' . formatPrix($p['prix']) . '</div>';
@@ -69,7 +67,7 @@ function renderProductCard($p) {
     $html .= '</div>';
     $html .= '</div>';
     $html .= '</div>';
-    
+
     return $html;
 }
 ?>
@@ -105,6 +103,66 @@ function renderProductCard($p) {
         .header .brand h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
         .header .brand h1 span { color: var(--gold); }
         .header .brand small { display: block; font-size: 0.8rem; color: #aaa; font-weight: 300; }
+
+        /* Bandeau publicitaire */
+        .banner {
+            background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        .banner .banner-content img {
+            max-height: 120px;
+            border-radius: 10px;
+            border: 3px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            transition: transform 0.3s;
+        }
+        .banner .banner-content img:hover {
+            transform: scale(1.05);
+        }
+        .banner .banner-text {
+            color: #fff;
+            text-align: center;
+        }
+        .banner .banner-text h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin: 0;
+        }
+        .banner .banner-text p {
+            color: #ccc;
+            margin: 5px 0 0 0;
+            font-size: 1.1rem;
+        }
+        .banner .banner-text .promo {
+            display: inline-block;
+            background: #dc2626;
+            color: #fff;
+            padding: 4px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 8px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         .hero {
             background: linear-gradient(135deg, var(--primary), #1c2c52);
             color: #fff; padding: 40px 0; text-align: center; margin-bottom: 30px;
@@ -113,6 +171,7 @@ function renderProductCard($p) {
         .hero h2 span { font-weight: 700; color: var(--gold); }
         .hero p { font-size: 1.1rem; color: #b0b0d0; max-width: 500px; margin: 0 auto; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
         .category-section {
             background: #fff; border-radius: 16px; padding: 25px;
             margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -242,6 +301,9 @@ function renderProductCard($p) {
             .category-header h3 { font-size: 1.3rem; }
             .header .brand h1 { font-size: 1.2rem; }
             .image-wrapper { height: 150px; }
+            .banner .banner-content { flex-direction: column; gap: 15px; }
+            .banner .banner-content img { max-height: 80px; }
+            .banner .banner-text h3 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -250,7 +312,7 @@ function renderProductCard($p) {
 <header class="header">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <a href="catalogue_final_v2.php" class="brand">
+            <a href="catalogue.php" class="brand">
                 <div class="logo">OI</div>
                 <div>
                     <h1>OMEGA <span>INFORMATIQUE</span></h1>
@@ -258,7 +320,7 @@ function renderProductCard($p) {
                 </div>
             </a>
             <div class="d-flex align-items-center gap-3">
-                <a href="catalogue_final_v2.php" class="text-white text-decoration-none">
+                <a href="catalogue.php" class="text-white text-decoration-none">
                     <i class="fas fa-home"></i>
                 </a>
                 <a href="login.php" class="btn btn-outline-light btn-sm">
@@ -277,6 +339,20 @@ function renderProductCard($p) {
 </section>
 
 <div class="container">
+    <!-- ================================================= -->
+    <!-- BANDEAU PUBLICITAIRE AVEC L'IMAGE OK.JPEG          -->
+    <!-- ================================================= -->
+    <div class="banner">
+        <div class="banner-content">
+            <img src="ok.jpeg" alt="Promotion OMEGA" loading="lazy">
+            <div class="banner-text">
+                <h3>🔥 OFFRE SPÉCIALE</h3>
+                <p>Découvrez nos produits en promotion</p>
+                <span class="promo">- 30%</span>
+            </div>
+        </div>
+    </div>
+
     <?php if (empty($groupes)): ?>
         <div class="alert alert-warning text-center py-5">
             <i class="fas fa-box" style="font-size:3rem;"></i>
@@ -333,8 +409,8 @@ function goToSlide(dot, index) {
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
 }
 
-// Auto-play
 document.addEventListener('DOMContentLoaded', function() {
+    // Auto-play des carrousels
     document.querySelectorAll('.mini-carousel').forEach(carousel => {
         if (carousel.querySelectorAll('.mini-slide').length > 1) {
             setInterval(() => {
@@ -344,6 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Bouton Ajouter
     document.querySelectorAll('.btn-acheter').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
