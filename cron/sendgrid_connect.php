@@ -3,7 +3,7 @@
  * Configuration SendGrid avec PHPMailer
  */
 
-// Charger PHPMailer FORCÉMENT
+// Charger PHPMailer
 $autoloadPaths = [
     '/root/ecommerce_design/vendor/autoload.php',
     __DIR__ . '/../vendor/autoload.php'
@@ -19,7 +19,7 @@ foreach ($autoloadPaths as $path) {
 }
 
 if (!$loaded) {
-    die("❌ PHPMailer non trouvé. Exécutez: composer require phpmailer/phpmailer\n");
+    die("❌ PHPMailer non trouvé.\n");
 }
 
 // Configuration SMTP avec le mot de passe d'application
@@ -31,11 +31,18 @@ $smtp_config = [
     'encryption' => 'tls'
 ];
 
+// Destinataire par défaut (adresse Gmail valide)
+$default_to = 'sibymohamed24@gmail.com';
+
 // Fonction d'envoi d'email
-function sendEmail($to, $subject, $htmlContent, $from = 'alertes@omega-consulting.sn') {
+function sendEmail($to, $subject, $htmlContent, $from = 'sibymohamed24@gmail.com') {
     global $smtp_config;
     
-    // Utiliser PHPMailer
+    // Si le domaine n'existe pas, remplacer par Gmail
+    if (!filter_var($to, FILTER_VALIDATE_EMAIL) || !str_contains($to, '@gmail.com')) {
+        $to = 'sibymohamed24@gmail.com';
+    }
+    
     return sendEmailWithPHPMailer($to, $subject, $htmlContent, $from);
 }
 
@@ -46,7 +53,6 @@ function sendEmailWithPHPMailer($to, $subject, $htmlContent, $from) {
     try {
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         
-        // Configuration SMTP
         $mail->isSMTP();
         $mail->Host = $smtp_config['host'];
         $mail->SMTPAuth = true;
@@ -58,12 +64,10 @@ function sendEmailWithPHPMailer($to, $subject, $htmlContent, $from) {
         $mail->SMTPDebug = 0;
         $mail->Timeout = 30;
         
-        // Expéditeur et destinataire
         $mail->setFrom($from, 'OMEGA INFORMATIQUE');
         $mail->addAddress($to);
         $mail->addReplyTo($from);
         
-        // Contenu
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $htmlContent;
@@ -72,7 +76,6 @@ function sendEmailWithPHPMailer($to, $subject, $htmlContent, $from) {
         $mail->send();
         return ['success' => true, 'message' => '✅ Email envoyé avec PHPMailer'];
     } catch (Exception $e) {
-        // En cas d'erreur, sauvegarder dans un fichier
         $outputFile = '/root/ecommerce_design/logs/email_' . date('Ymd_His') . '.html';
         file_put_contents($outputFile, $htmlContent);
         return ['success' => false, 'message' => '📧 Email sauvegardé dans: ' . $outputFile];

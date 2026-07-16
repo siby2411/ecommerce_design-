@@ -1,21 +1,17 @@
 <?php
 /**
- * Script d'alertes stock avec PHPMailer
+ * Script d'alertes stock - Version corrigée
  */
 
-// Définir le chemin de base
 $basePath = '/root/ecommerce_design';
-
-// Inclure les fichiers
 require_once $basePath . '/cron/config_cron.php';
 require_once $basePath . '/cron/sendgrid_connect.php';
 
-// Configuration
-$email_admin = 'admin@omega-consulting.sn';
+// Destinataire Gmail valide
+$email_admin = 'sibymohamed24@gmail.com';
 $seuil_alerte = 5;
 $seuil_critique = 2;
 
-// Créer le dossier logs
 $logDir = '/root/ecommerce_design/logs';
 if (!is_dir($logDir)) mkdir($logDir, 0755, true);
 
@@ -29,7 +25,6 @@ try {
     die("❌ Erreur DB\n");
 }
 
-// Récupérer les produits en alerte
 $stmt = $pdo->prepare("
     SELECT p.id, p.nom, p.stock, p.prix, c.nom AS categorie,
            (SELECT COUNT(*) FROM facture_lignes WHERE id_produit = p.id) AS nb_ventes
@@ -42,13 +37,11 @@ $stmt->execute([$seuil_alerte]);
 $produits = $stmt->fetchAll();
 
 if (empty($produits)) {
-    $msg = "✅ " . date('Y-m-d H:i:s') . " - Tous les stocks sont corrects\n";
-    file_put_contents($logFile, $msg, FILE_APPEND);
-    echo $msg;
+    file_put_contents($logFile, "✅ " . date('Y-m-d H:i:s') . " - Tous les stocks sont corrects\n", FILE_APPEND);
+    echo "✅ Tous les stocks sont corrects\n";
     exit(0);
 }
 
-// Construire le message HTML
 $sujet = "⚠️ ALERTE STOCK - " . count($produits) . " produit(s) en alerte";
 
 $message = "<html><head><title>ALERTE STOCK</title>
@@ -83,19 +76,16 @@ foreach ($produits as $p) {
 
 $message .= "
 </table>
-<p><a href='http://localhost:9006/produits.php' style='background:#2563eb;color:#fff;padding:10px 20px;text-decoration:none;border-radius:5px;'>🔗 Voir les produits</a></p>
 <p style='color:#888;font-size:12px;'>OMEGA INFORMATIQUE CONSULTING<br>Date: " . date('d/m/Y H:i:s') . "</p>
 </body></html>";
 
-// Envoyer avec PHPMailer
 $result = sendEmail($email_admin, $sujet, $message);
 
 if ($result['success']) {
     file_put_contents($logFile, "✅ " . date('Y-m-d H:i:s') . " - Envoyé à {$email_admin}\n", FILE_APPEND);
-    echo "✅ Email envoyé\n";
+    echo "✅ Email envoyé à sibymohamed24@gmail.com\n";
 } else {
     file_put_contents($logFile, "❌ " . date('Y-m-d H:i:s') . " - " . $result['message'] . "\n", FILE_APPEND);
     echo "❌ " . $result['message'] . "\n";
 }
-
 echo "📊 " . count($produits) . " produits en alerte\n";
