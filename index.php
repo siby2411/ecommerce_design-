@@ -25,9 +25,7 @@ $ventes = $pdo->query("SELECT DATE_FORMAT(date_facture, '%Y-%m') AS mois, SUM(to
 $categoriesData = $pdo->query("SELECT c.nom, COUNT(p.id) AS nb FROM categories c LEFT JOIN produits p ON p.id_categorie = c.id GROUP BY c.id")->fetchAll();
 ?>
 
-<!-- ================================================= -->
-<!-- BANDEAU PUBLICITAIRE AVEC L'IMAGE OK1.JPEG        -->
-<!-- ================================================= -->
+<!-- BANDEAU PUBLICITAIRE -->
 <div class="banner-dashboard">
     <div class="banner-dashboard-content">
         <img src="ok1.jpeg" alt="Promotion OMEGA" loading="lazy">
@@ -36,6 +34,46 @@ $categoriesData = $pdo->query("SELECT c.nom, COUNT(p.id) AS nb FROM categories c
             <p>Découvrez nos produits en promotion</p>
             <span class="promo-badge">- 30%</span>
         </div>
+    </div>
+</div>
+
+<!-- Liens rapides vers les modules décisionnels -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <a href="decisions.php" class="text-decoration-none">
+            <div class="stat-card" style="border-left-color: #8b5cf6; cursor: pointer;">
+                <span class="stat-icon"><i class="fas fa-chart-line"></i></span>
+                <div class="stat-value" style="font-size:18px;">Aide à la décision</div>
+                <div class="stat-label">Analyses & statistiques</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="decisions.php?period=week" class="text-decoration-none">
+            <div class="stat-card" style="border-left-color: #f59e0b; cursor: pointer;">
+                <span class="stat-icon"><i class="fas fa-fire"></i></span>
+                <div class="stat-value" style="font-size:18px;">Top ventes</div>
+                <div class="stat-label">Meilleurs produits</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="decisions.php?period=month&seuil_stock=10" class="text-decoration-none">
+            <div class="stat-card" style="border-left-color: #dc2626; cursor: pointer;">
+                <span class="stat-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                <div class="stat-value" style="font-size:18px;">Alerte stock</div>
+                <div class="stat-label">Produits à réapprovisionner</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="factures.php" class="text-decoration-none">
+            <div class="stat-card" style="border-left-color: #16a34a; cursor: pointer;">
+                <span class="stat-icon"><i class="fas fa-file-invoice"></i></span>
+                <div class="stat-value" style="font-size:18px;">Facturation</div>
+                <div class="stat-label">Gérer les factures</div>
+            </div>
+        </a>
     </div>
 </div>
 

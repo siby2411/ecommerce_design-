@@ -30,6 +30,9 @@ $flash = getFlash();
 
         <nav class="sidebar-nav">
             <div class="nav-section">Pilotage</div>
+            <a href="/catalogue.php" target="_blank" class="nav-link">
+                <span class="ic ic-store"></span> Catalogue public
+            </a>
             <a href="<?= BASE_URL ?>/index.php" class="nav-link <?= $activePage === 'dashboard' ? 'active' : '' ?>">
                 <span class="ic ic-dashboard"></span> Tableau de bord
             </a>

@@ -1,0 +1,99 @@
+id	nom
+1	Ordinateur Portable HP EliteBook 840 G6
+2	Ordinateur Portable Dell Latitude 5420
+3	Ordinateur Portable Lenovo ThinkPad E14
+4	Ordinateur Portable Acer Aspire 5
+5	Ordinateur Portable Asus Vivobook 15
+6	MacBook Air M2 13"
+7	MacBook Pro M3 14"
+8	Ordinateur Portable Huawei MateBook D15
+9	Mini PC Intel NUC
+10	Station de travail Dell Precision 5560
+11	iPhone 15 Pro Max 256GB
+12	iPhone 15 Pro 128GB
+13	iPhone 14 128GB
+14	Samsung Galaxy S24 Ultra
+15	Samsung Galaxy S24
+16	Samsung Galaxy A55 5G
+17	Xiaomi Redmi Note 13 Pro
+18	Xiaomi 14T Pro
+19	Google Pixel 8 Pro
+20	OnePlus 12
+21	Tecno Camon 20 Pro
+22	Tecno Spark 20
+23	Infinix Zero 30
+24	Routeur WiFi TP-Link Archer AX73
+25	Routeur WiFi 6 Xiaomi AX3000
+26	Switch Gigabit 24 ports
+27	Switch Gigabit 8 ports
+28	Modem 4G LTE Huawei E5577
+29	Routeur 5G Huawei 5G CPE Pro
+30	Point d'accès Ubiquiti UniFi AP
+31	Câble réseau Cat6 5m
+32	Câble réseau Cat6 10m
+33	Fibre optique LC-LC 3m
+34	Boîtier PTO fibre optique
+35	Routeur MikroTik hAP ac2
+36	Souris sans fil Logitech M185
+37	Souris Gaming Logitech G402
+38	Clavier mécanique RGB
+39	Clavier sans fil Logitech K380
+40	Webcam HD 1080p
+41	Casque Gaming HyperX Cloud
+42	Écouteurs Bluetooth Sony WH-1000XM5
+43	Câble HDMI 2m
+44	Câble USB-C 1.5m
+45	Chargeur USB-C 65W
+46	Batterie externe 20000mAh
+47	Hub USB-C 7 ports
+48	Station d'accueil Dell
+49	SSD NVMe 256GB
+50	SSD NVMe 512GB
+51	SSD NVMe 1TB
+52	SSD SATA 256GB
+53	Disque dur externe 1TB
+54	Disque dur externe 2TB
+55	Clé USB 32GB
+56	Clé USB 64GB
+57	Carte SD 128GB
+58	Carte SD 256GB
+59	Mémoire RAM DDR4 8GB
+60	Mémoire RAM DDR4 16GB
+61	Mémoire RAM DDR5 16GB
+62	Écran 24" Dell
+63	Écran 27" Samsung
+64	Écran 32" Gaming
+65	Imprimante laser HP LaserJet
+66	Imprimante multifonction Epson
+67	Scanner A4
+68	Onduleur 600VA
+69	Onduleur 1200VA
+70	Multiprise parafoudre
+71	Tablette graphique Wacom
+72	Antenne WiFi 2.4GHz
+73	Antenne extérieure 5G
+74	Parabole 60cm
+75	Boîtier de connexion fibre
+76	Amplificateur signal 4G
+77	Antenne directionnelle
+78	Câble coaxial RG6 10m
+79	Connecteur F
+80	Manette Xbox Series X
+81	Manette PlayStation 5
+82	Casque VR Meta Quest 3
+83	Volant Gaming Logitech G29
+84	Tapis de souris Gaming XL
+85	Support écran 2 bras
+86	Ventilateur CPU
+87	Pâte thermique
+88	Batterie smartphone
+89	Écran de remplacement
+90	Adaptateur secteur 19V
+91	Câble nappe écran
+92	Serveur Dell PowerEdge T40
+93	NAS Synology 2 baies
+94	NAS Synology 4 baies
+95	Firewall MikroTik
+96	Switch PoE 24 ports
+97	Routeur Cisco 1921
+98	Kit UPS 1500VA

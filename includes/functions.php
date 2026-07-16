@@ -152,3 +152,16 @@ function getProductImages($pdo, $produitId) {
     return $stmt->fetchAll();
 }
 
+
+/**
+ * Récupérer la première image d'un produit (pour affichage)
+ */
+function getProductFirstImage($pdo, $produitId) {
+    $stmt = $pdo->prepare('SELECT image FROM produits_images WHERE id_produit = ? ORDER BY ordre ASC, date_creation ASC LIMIT 1');
+    $stmt->execute([$produitId]);
+    $img = $stmt->fetch();
+    if ($img) {
+        return UPLOAD_URL . $img['image'];
+    }
+    return null;
+}

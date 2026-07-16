@@ -1,0 +1,117 @@
+=== ORDINATEURS & PORTABLES (Catégorie 1) ===
+ID 1  : Ordinateur Portable HP EliteBook 840 G6
+ID 2  : Ordinateur Portable Dell Latitude 5420
+ID 3  : Ordinateur Portable Lenovo ThinkPad E14
+ID 4  : Ordinateur Portable Acer Aspire 5
+ID 5  : Ordinateur Portable Asus Vivobook 15
+ID 6  : MacBook Air M2 13"
+ID 7  : MacBook Pro M3 14"
+ID 8  : Ordinateur Portable Huawei MateBook D15
+ID 9  : Mini PC Intel NUC
+ID 10 : Station de travail Dell Precision 5560
+
+=== SMARTPHONES & TÉLÉPHONIE (Catégorie 2) ===
+ID 11 : iPhone 15 Pro Max 256GB
+ID 12 : iPhone 15 Pro 128GB
+ID 13 : iPhone 14 128GB
+ID 14 : Samsung Galaxy S24 Ultra
+ID 15 : Samsung Galaxy S24
+ID 16 : Samsung Galaxy A55 5G
+ID 17 : Xiaomi Redmi Note 13 Pro
+ID 18 : Xiaomi 14T Pro
+ID 19 : Google Pixel 8 Pro
+ID 20 : OnePlus 12
+ID 21 : Tecno Camon 20 Pro
+ID 22 : Tecno Spark 20
+ID 23 : Infinix Zero 30
+
+=== RÉSEAUX & TÉLÉCOMMUNICATIONS (Catégorie 3) ===
+ID 24 : Routeur WiFi TP-Link Archer AX73
+ID 25 : Routeur WiFi 6 Xiaomi AX3000
+ID 26 : Switch Gigabit 24 ports
+ID 27 : Switch Gigabit 8 ports
+ID 28 : Modem 4G LTE Huawei E5577
+ID 29 : Routeur 5G Huawei 5G CPE Pro
+ID 30 : Point d'accès Ubiquiti UniFi AP
+ID 31 : Câble réseau Cat6 5m
+ID 32 : Câble réseau Cat6 10m
+ID 33 : Fibre optique LC-LC 3m
+ID 34 : Boîtier PTO fibre optique
+ID 35 : Routeur MikroTik hAP ac2
+
+=== ACCESSOIRES INFORMATIQUES (Catégorie 4) ===
+ID 36 : Souris sans fil Logitech M185
+ID 37 : Souris Gaming Logitech G402
+ID 38 : Clavier mécanique RGB
+ID 39 : Clavier sans fil Logitech K380
+ID 40 : Webcam HD 1080p
+ID 41 : Casque Gaming HyperX Cloud
+ID 42 : Écouteurs Bluetooth Sony WH-1000XM5
+ID 43 : Câble HDMI 2m
+ID 44 : Câble USB-C 1.5m
+ID 45 : Chargeur USB-C 65W
+ID 46 : Batterie externe 20000mAh
+ID 47 : Hub USB-C 7 ports
+ID 48 : Station d'accueil Dell
+
+=== STOCKAGE & MÉMOIRE (Catégorie 5) ===
+ID 49 : SSD NVMe 256GB
+ID 50 : SSD NVMe 512GB
+ID 51 : SSD NVMe 1TB
+ID 52 : SSD SATA 256GB
+ID 53 : Disque dur externe 1TB
+ID 54 : Disque dur externe 2TB
+ID 55 : Clé USB 32GB
+ID 56 : Clé USB 64GB
+ID 57 : Carte SD 128GB
+ID 58 : Carte SD 256GB
+ID 59 : Mémoire RAM DDR4 8GB
+ID 60 : Mémoire RAM DDR4 16GB
+ID 61 : Mémoire RAM DDR5 16GB
+
+=== PÉRIPHÉRIQUES & ÉQUIPEMENTS (Catégorie 6) ===
+ID 62 : Écran 24" Dell
+ID 63 : Écran 27" Samsung
+ID 64 : Écran 32" Gaming
+ID 65 : Imprimante laser HP LaserJet
+ID 66 : Imprimante multifonction Epson
+ID 67 : Scanner A4
+ID 68 : Onduleur 600VA
+ID 69 : Onduleur 1200VA
+ID 70 : Multiprise parafoudre
+ID 71 : Tablette graphique Wacom
+
+=== TÉLÉCOMMUNICATIONS & ANTENNES (Catégorie 7) ===
+ID 72 : Antenne WiFi 2.4GHz
+ID 73 : Antenne extérieure 5G
+ID 74 : Parabole 60cm
+ID 75 : Boîtier de connexion fibre
+ID 76 : Amplificateur signal 4G
+ID 77 : Antenne directionnelle
+ID 78 : Câble coaxial RG6 10m
+ID 79 : Connecteur F
+
+=== GAMING & DIVERTISSEMENT (Catégorie 8) ===
+ID 80 : Manette Xbox Series X
+ID 81 : Manette PlayStation 5
+ID 82 : Casque VR Meta Quest 3
+ID 83 : Volant Gaming Logitech G29
+ID 84 : Tapis de souris Gaming XL
+ID 85 : Support écran 2 bras
+
+=== PIÈCES DÉTACHÉES & RÉPARATION (Catégorie 9) ===
+ID 86 : Ventilateur CPU
+ID 87 : Pâte thermique
+ID 88 : Batterie smartphone
+ID 89 : Écran de remplacement
+ID 90 : Adaptateur secteur 19V
+ID 91 : Câble nappe écran
+
+=== SOLUTIONS PROFESSIONNELLES (Catégorie 10) ===
+ID 92 : Serveur Dell PowerEdge T40
+ID 93 : NAS Synology 2 baies
+ID 94 : NAS Synology 4 baies
+ID 95 : Firewall MikroTik
+ID 96 : Switch PoE 24 ports
+ID 97 : Routeur Cisco 1921
+ID 98 : Kit UPS 1500VA
