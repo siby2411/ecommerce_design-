@@ -37,6 +37,20 @@ $flash = getFlash();
                 <span class="ic ic-dashboard"></span> Tableau de bord
             </a>
 
+            <!-- NOUVEAU : Liens Email et Décision -->
+            <div class="nav-section">Communication</div>
+            <a href="<?= BASE_URL ?>/send_email_admin.php" class="nav-link <?= $activePage === 'send_email' ? 'active' : '' ?>">
+                <span class="ic ic-email"></span> Envoyer un email
+            </a>
+            <a href="<?= BASE_URL ?>/quick_email.php" class="nav-link <?= $activePage === 'quick_email' ? 'active' : '' ?>">
+                <span class="ic ic-lightning"></span> Email rapide
+            </a>
+
+            <div class="nav-section">Analyse</div>
+            <a href="<?= BASE_URL ?>/decisions.php" class="nav-link <?= $activePage === 'decisions' ? 'active' : '' ?>">
+                <span class="ic ic-chart"></span> Aide à la décision
+            </a>
+
             <div class="nav-section">Catalogue</div>
             <a href="<?= BASE_URL ?>/categories/liste.php" class="nav-link <?= $activePage === 'categories' ? 'active' : '' ?>">
                 <span class="ic ic-tag"></span> Catégories
@@ -92,6 +106,12 @@ $flash = getFlash();
                     <strong><?= clean($_SESSION['user_nom'] ?? 'Utilisateur') ?></strong>
                     <span><?= clean($_SESSION['user_role'] ?? '') ?></span>
                 </div>
+                <a href="<?= BASE_URL ?>/send_email_admin.php" class="btn btn-sm btn-primary ms-2" title="Envoyer un email">
+                    <span class="ic ic-email"></span>
+                </a>
+                <a href="<?= BASE_URL ?>/decisions.php" class="btn btn-sm btn-purple ms-1" title="Aide à la décision">
+                    <span class="ic ic-chart"></span>
+                </a>
             </div>
         </header>
 
