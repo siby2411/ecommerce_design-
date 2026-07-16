@@ -1,0 +1,8 @@
+2026-07-16 04:13:21 - Début du script
+❌ 2026-07-16 04:13:22 - Erreur: Erreur avec mail()
+📧 Email sauvegardé dans: /root/ecommerce_design/logs/alert_email_20260716.html
+2026-07-16 04:20:06 - Début du script
+❌ 2026-07-16 04:20:06 - Erreur: 📧 Email sauvegardé dans: /root/ecommerce_design/logs/email_20260716_042006.html
+📧 Email sauvegardé dans: /root/ecommerce_design/logs/alert_email_20260716.html
+2026-07-16 04:23:42 - Début du script
+✅ 2026-07-16 04:23:46 - Envoyé à admin@omega-consulting.sn
