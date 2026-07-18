@@ -45,3 +45,8 @@ $params = getParametres();
     <span class="opacity-75">© <?= date('Y') ?> — Fait avec soin</span>
   </div>
 </aside>
+    <li class="nav-item">
+        <a class="nav-link <?= $activePage == 'send_email_secure' ? 'active' : '' ?>" href="<?= BASE_URL ?>/send_email_admin_secure.php">
+            <i class="fas fa-envelope-shield"></i> Email sécurisé
+        </a>
+    </li>

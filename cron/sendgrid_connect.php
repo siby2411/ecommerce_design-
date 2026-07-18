@@ -1,7 +1,6 @@
 <?php
 /**
  * Configuration SendGrid avec PHPMailer
- * Version corrigée - 16 Juillet 2026
  */
 
 // Charger PHPMailer
@@ -19,35 +18,37 @@ foreach ($autoloadPaths as $path) {
     }
 }
 
+// Si PHPMailer n'est pas installé, utiliser mail() simple
 if (!$loaded) {
-    die("❌ PHPMailer non trouvé. Exécutez: composer require phpmailer/phpmailer\n");
+    function sendEmail($to, $subject, $htmlContent, $from = 'sibymohamed24@gmail.com') {
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $headers .= "From: $from\r\n";
+        
+        if (mail($to, $subject, $htmlContent, $headers)) {
+            return ['success' => true, 'message' => 'Email envoyé avec mail()'];
+        } else {
+            return ['success' => false, 'message' => 'Erreur avec mail()'];
+        }
+    }
+    return;
 }
 
-// Configuration SMTP avec le mot de passe d'application Gmail
+// Configuration SMTP
 $smtp_config = [
     'host' => 'smtp.gmail.com',
     'port' => 587,
     'username' => 'sibymohamed24@gmail.com',
-    'password' => 'uftpkiqkimnpqutb',  // Mot de passe d'application Gmail
+    'password' => 'uftpkiqkimnpqutb',
     'encryption' => 'tls'
 ];
 
-// Fonction d'envoi d'email
 function sendEmail($to, $subject, $htmlContent, $from = 'sibymohamed24@gmail.com') {
-    global $smtp_config;
-    
-    // Forcer l'utilisation de PHPMailer
-    return sendEmailWithPHPMailer($to, $subject, $htmlContent, $from);
-}
-
-// Envoi avec PHPMailer
-function sendEmailWithPHPMailer($to, $subject, $htmlContent, $from) {
     global $smtp_config;
     
     try {
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         
-        // Configuration serveur
         $mail->isSMTP();
         $mail->Host = $smtp_config['host'];
         $mail->SMTPAuth = true;
@@ -59,12 +60,10 @@ function sendEmailWithPHPMailer($to, $subject, $htmlContent, $from) {
         $mail->SMTPDebug = 0;
         $mail->Timeout = 30;
         
-        // Expéditeur et destinataire
         $mail->setFrom($from, 'OMEGA INFORMATIQUE');
         $mail->addAddress($to);
         $mail->addReplyTo($from);
         
-        // Contenu
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $htmlContent;
@@ -73,7 +72,6 @@ function sendEmailWithPHPMailer($to, $subject, $htmlContent, $from) {
         $mail->send();
         return ['success' => true, 'message' => '✅ Email envoyé avec PHPMailer'];
     } catch (Exception $e) {
-        // En cas d'erreur, sauvegarder dans un fichier
         $outputFile = '/root/ecommerce_design/logs/email_' . date('Ymd_His') . '.html';
         file_put_contents($outputFile, $htmlContent);
         return ['success' => false, 'message' => '📧 Email sauvegardé dans: ' . $outputFile . ' - Erreur: ' . $e->getMessage()];
