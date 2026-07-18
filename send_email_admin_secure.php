@@ -19,13 +19,11 @@ require_once __DIR__ . '/cron/sendgrid_connect.php';
 
 $pdo = getPDO_Secure();
 
-// Récupérer les clients
 $clients = [];
 try {
     $clients = $pdo->query("SELECT id, nom, prenom, email FROM clients WHERE email IS NOT NULL AND email != '' GROUP BY email ORDER BY nom")->fetchAll();
 } catch (Exception $e) {}
 
-// Récupérer les fournisseurs
 $fournisseurs = [];
 try {
     $fournisseurs = $pdo->query("SELECT id, nom_entreprise AS nom, email FROM fournisseurs WHERE email IS NOT NULL AND email != '' GROUP BY email ORDER BY nom_entreprise")->fetchAll();
@@ -37,14 +35,13 @@ $feedback_type = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_email'])) {
     $sender_type = $_POST['sender_type'] ?? 'client';
-    $sender_id = isset($_POST['sender_id']) ? (int)$_POST['sender_id'] : 0;
+    $sender_id = (int)($_POST['sender_id'] ?? 0);
     $subject = trim($_POST['subject'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $sender_name = '';
     $sender_email = '';
     $type_label = '';
     
-    // Récupérer les informations
     if ($sender_type === 'client') {
         $type_label = 'Client';
         foreach ($clients as $c) {
@@ -65,9 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_email'])) {
         }
     }
     
-    // Validation
     if (empty($sender_email) || $sender_id == 0) {
-        $feedback = '⚠️ Veuillez sélectionner un expéditeur valide. (ID reçu: ' . $sender_id . ')';
+        $feedback = '⚠️ Veuillez sélectionner un expéditeur valide.';
         $feedback_type = 'danger';
     } elseif (empty($subject)) {
         $feedback = '⚠️ Veuillez saisir un sujet.';
@@ -134,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_email'])) {
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <form method="POST" action="" id="emailForm">
+            <form method="POST" action="">
                 <div class="mb-3">
                     <label class="form-label">Type d'expéditeur</label>
                     <select name="sender_type" class="form-select" id="senderType" onchange="toggleSender()">
